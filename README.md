@@ -1,6 +1,16 @@
 # Animated Text API
 A script for the Figura Mod capable of providing more fluid movements to the otherwise mundane and stiff TextTasks.
 
+# Installation
+
+- 1: Download and Extract the .zip containing an example avatar or download the standalone script.
+- 2: Take the script and move it to your desired avatars' folder.
+- 3: Go to `script.lua` or any script you may have set to run automatically and insert the following snippet. (Recommended to include at the beginning of your script.)
+```lua
+local animatedText = require("animatedText")
+ ```
+- 4: Bone Apple Tea or whatever they say lmao
+
 # Documentation
 
 ## new(name, parent, offset, scale, parentType, json)
