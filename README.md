@@ -61,3 +61,4 @@ function events.render(delta, context)
 	end
 end
 ```
+This example script and the rest of the example avatar can be found under the `animatedText` folder.
