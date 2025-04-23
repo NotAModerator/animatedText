@@ -41,7 +41,7 @@ Sets the text of a task with the associated name. This will replace all TextTask
 Applies a transformation to a certain character inside of an animated task. `pos`, `rot`, and `scale` can be left nil for the sake of readability.
 - `pos`: A vector3 that moves a character relative to its anchor point in the task. This can be viewed through the `textTasks` table inside the task.
 - `rot`, `scale`: 2 other vector3s that will apply rotation and scaling without being relative to another value.
-- `char`: An index for which character should be affected. This is best used within a for loop to allow for certain effects.
+- `char`: A numerical index for which character should be affected. This is best used within a for loop to allow for certain effects.
 
 # Example
 ```lua
