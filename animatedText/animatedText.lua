@@ -1,4 +1,4 @@
---Animated Text API v0.0
+--Animated Text API v0.0.1
 local api, tasks = {}, {}
 
 function trueLength(tbl)
@@ -21,7 +21,7 @@ function deconstructString(string, tbl) --if tbl argument is provided, all chara
 	for char in string:gmatch('[\x00-\x7F\xC2-\xF4][\x80-\xBF]*') do
 		if escape then str = str .. char else str = char end --look for emojis, if str is complete, add as char
 		if char == ':' then escape = not escape end
-		if char == ' ' and escape or not string:find(char, charIndex + 1) and escape then
+		if char == ' ' and escape then
 			escape, charsLeft = false, #str - 1
 			for i = 1, #str do table.insert(_tbl, str:sub(i, i)) end
 		end
