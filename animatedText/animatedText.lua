@@ -74,6 +74,7 @@ end
 
 function api.remove(name)
 	for _, v in pairs(tasks[name].root:getTask()) do v:remove() end
+	tasks[name].textTasks = {}
 end
 
 function api.new(name, parent, offset, scale, parentType, json)
