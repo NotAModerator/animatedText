@@ -1,5 +1,5 @@
-# Animated Text API
-A script for the Figura Mod capable of providing more fluid movements to the otherwise mundane and stiff TextTasks.
+# Animated Text API v0.1.0
+Provides functions for creating groups of TextTasks to move independently in Figura.
 
 # Installation
 
@@ -19,7 +19,7 @@ Creates a new task given the 5 parameters. The main ones to focus on are `name`,
 - `parent`: The modelpart that the task will be parented to. This cannot be changed after the task is created.
 - `offset`: A vector3 that changes the position relative to the parent.
 - `scale`: A vector3 determining the scale of the characters and how far they will be spaced.
-- `json`: The text that the task will display. This is the most modular when using JSON-formatted data, but does accept regular strings.
+- `json`: The text that the task will display. Accepts JSON-formatted data.
 
 ## remove(name)
 Removes any task created with the associated name.
@@ -46,14 +46,15 @@ Applies a transformation to a certain character inside of an animated task. `pos
 # Example
 ```lua
 vanilla_model.PLAYER:visible(false)
+nameplate.ENTITY:visible(false)
 
 --require the script for use
 local animatedText = require("animatedText") 
 
---create text, can be a regular string if you wish
-local myJson = { 
-      {text = 'now playing: lorem ipsum ™:notepad++::java:', italic = true},
-      {text = avatar:getBadges(), font = "figura:badges", color = avatar:getColor()}
+--create text
+local myJson = {
+	{text = 'This is line 1. :notepad++::java:\nThis is line 2.'},
+	{text = avatar:getBadges(), font = "figura:badges", color = avatar:getColor()}
 }
 
 --add text as a new set of tasks
@@ -71,4 +72,4 @@ function events.render(delta, context)
 	end
 end
 ```
-This example script and the rest of the example avatar can be found under the `animatedText` folder.
+This example script and the rest of the example avatar can be found in `Example.zip`.
