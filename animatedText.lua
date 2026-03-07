@@ -1,4 +1,4 @@
---Animated Text API v0.1.0
+--Animated Text API v0.2.0
 local api, tasks = {}, {}
 
 local function trueLength(tbl)
@@ -111,5 +111,6 @@ function api.applyFunc(name, func)
 		:scale(tasks[name].scale + (scale or vec(0, 0, 0)))
 	end
 end
+
 
 return api
