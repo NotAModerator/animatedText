@@ -1,4 +1,4 @@
-# Animated Text API v0.1.0
+# Animated Text API v0.2.0
 Provides functions for creating groups of TextTasks to move independently in Figura.
 
 # Installation
@@ -24,52 +24,35 @@ Creates a new task given the 5 parameters. The main ones to focus on are `name`,
 ## remove(name)
 Removes any task created with the associated name.
 
-## getTask(name)
-A means for retrieving information about an animated task. Returns a table.
-- `offset`: The original offset of the task.
-- `scale`: The original scale of the task.
-- `root`: This is a modelpart bound to the parent that contains all the TextTasks displayed.
-- `textTasks`: The TextTasks themselves that are displayed.
-
 ## setText(name, json)
 Sets the text of a task with the associated name. This will replace all TextTasks previously created. This can also be called if `new()` is missing the `json` argument.
 
-> [!NOTE]
-> This function is likely to cause issues if it runs every frame. This is because all TextTasks in the animated task need to be refreshed in order to display correctly.
+## applyFunc(name, func)
+Applies transformations/display changes to all textTasks inside an animated task.
+- `name`: Target task to apply transformations to.
+- `func`: A function that accepts 2 arguments.
+	- `char`: 1 textTask out of n characters in the string. Can have functions such as `setOutline` or `setBackground` applied.
+   	- `i`: Numerical index of `char`.
 
-## transform(name, pos, rot, scale, char)
-Applies a transformation to a certain character inside of an animated task. `pos`, `rot`, and `scale` can be left nil for the sake of readability.
-- `pos`: A vector3 that moves a character relative to its anchor point in the task. This can be viewed through the `textTasks` table inside the task.
-- `rot`, `scale`: 2 other vector3s that will apply rotation and scaling without being relative to another value.
-- `char`: A numerical index for which character should be affected. This is best used within a for loop to allow for certain effects.
+If you wish to apply transformations relative to the character's anchor position and scale, `func` can return `pos`, `rot`, and `scale`. If these are nil, they will default to what their setting is in `new()`.
 
 # Example
 ```lua
-vanilla_model.PLAYER:visible(false)
+vanilla_model.ALL:visible(false)
 nameplate.ENTITY:visible(false)
+local animatedText = require("animatedText")
 
---require the script for use
-local animatedText = require("animatedText") 
-
---create text
 local myJson = {
 	{text = 'This is line 1. :notepad++::java:\nThis is line 2.'},
 	{text = avatar:getBadges(), font = "figura:badges", color = avatar:getColor()}
 }
 
---add text as a new set of tasks
-animatedText.new("myTask", models.model.root.Head, vec(0, 15, 0), vec(.5, .5, 1), "BILLBOARD", myJson) 
-for _, v in pairs(animatedText.getTask("myTask").textTasks) do v.task:outline(true) end
-
-local tickTime = 0 
-function events.tick() tickTime = tickTime + 1 end
-
---in this example, we use a formula to offset the sine of each character based on its index (i) and amplify its motion by .5
+animatedText.new("myTask", models.model.root.Head, vec(0,20,0), vec(.4,.4,0), "Billboard", myJson)
 function events.render(delta, context)
 	if context ~= "FIRST_PERSON" and context ~= "RENDER" then return end
-	for i, v in pairs(animatedText.getTask("myTask").textTasks) do
-		animatedText.transform("myTask", vec(0, math.sin((tickTime + delta) / 8 + i) * .5, 0), nil, nil, v)
-	end
+	animatedText.applyFunc("myTask", function(char, i)
+		return vec(0, math.sin((world:getTime() + delta) / 8 + i) * .25, 0)
+	end)
 end
 ```
 This example script and the rest of the example avatar can be found in `Example.zip`.
