@@ -86,7 +86,10 @@ local function createTasks(task, _text)
 end
 
 function api.remove(name)
-	for _, v in pairs(tasks[name].root:getTask()) do v:remove() end
+	for i, v in pairs(tasks[name].root:getTask()) do 
+		v:remove()
+		tasks[name].textTasks[i + 1] = nil
+	end
 end
 
 function api.new(name, parent, offset, scale, parentType, json)
@@ -100,12 +103,13 @@ function api.setText(name, json)
 	createTasks(tasks[name], json)
 end
 
-function api.getTask(name) return tasks[name] end
-
-function api.transform(name, pos, rot, scale, char)
-	char.task:pos(char.anchor + (pos or vec(0, 0, 0)))
-	:rot(rot or vec(0, 0, 0))
-	:scale(tasks[name].scale + (scale or vec(0, 0, 0)))
+function api.applyFunc(name, func)
+	for i, v in pairs(tasks[name].textTasks) do 
+		local pos, rot, scale = func(v.task, i)
+		v.task:pos(v.anchor + (pos or vec(0, 0, 0)))
+		:rot(rot or vec(0, 0, 0))
+		:scale(tasks[name].scale + (scale or vec(0, 0, 0)))
+	end
 end
 
 return api
